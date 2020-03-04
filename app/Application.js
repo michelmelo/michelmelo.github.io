@@ -3,10 +3,10 @@
  * calls Ext.application(). This is the ideal place to handle application launch and
  * initialization details.
  */
-Ext.define('MyApp.Application', {
+Ext.define('HnGroup.Application', {
     extend: 'Ext.app.Application',
 
-    name: 'MyApp',
+    name: 'HnGroup',
 
     quickTips: false,
     platformConfig: {

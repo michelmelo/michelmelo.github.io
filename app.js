@@ -3,16 +3,16 @@
  * and launch() the Application class.
  */
 Ext.application({
-    extend: 'MyApp.Application',
+    extend: 'HnGroup.Application',
 
-    name: 'MyApp',
+    name: 'HnGroup',
 
     requires: [
-        // This will automatically load all classes in the MyApp namespace
+        // This will automatically load all classes in the HnGroup namespace
         // so that application classes do not need to require each other.
-        'MyApp.*'
+        'HnGroup.*'
     ],
 
     // The name of the initial view to create.
-    mainView: 'MyApp.view.main.Main'
+    mainView: 'HnGroup.view.main.Main'
 });

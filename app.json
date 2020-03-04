@@ -1,6 +1,6 @@
 {
-    "name": "MyApp",
-    "namespace": "MyApp",
+    "name": "HnGroup",
+    "namespace": "HnGroup",
     "version": "1.0.0.0",
     "framework": "ext",
     "toolkit": "modern",
@@ -64,13 +64,13 @@
     "sass": {
         /**
          * The root namespace to use when mapping *.scss files to classes in the
-         * sass/src and sass/var directories. For example, "MyApp.view.Foo" would
-         * map to "sass/src/view/Foo.scss". If we changed this to "MyApp.view" then
+         * sass/src and sass/var directories. For example, "HnGroup.view.Foo" would
+         * map to "sass/src/view/Foo.scss". If we changed this to "HnGroup.view" then
          * it would map to "sass/src/Foo.scss". To style classes outside the app's
          * root namespace, change this to "". Doing so would change the mapping of
-         * "MyApp.view.Foo" to "sass/src/MyApp/view/Foo.scss".
+         * "HnGroup.view.Foo" to "sass/src/HnGroup/view/Foo.scss".
          */
-        "namespace": "MyApp",
+        "namespace": "HnGroup",
 
         /**
          * Generated sass source settings
@@ -478,5 +478,5 @@
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "c965195e-875f-415a-b2c1-4de014dbadbe"
+    "id": "9e9d9eb5-2b41-4e7f-8472-7d8aded1db2f"
 }
