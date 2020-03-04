@@ -1,52 +1,84 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="UTF-8">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="google" content="notranslate" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, user-scalable=yes">
 
-    <title>FeedViewer</title>
+    <title>Ext JS Kitchen Sink</title>
 
+    <link rel="apple-touch-icon" href="resources/images/apple-touch-icon.png"/>
+
+    <!-- The line below must be kept intact for Sencha Command to build your application -->
     <script type="text/javascript">
-        var Ext = Ext || {}; // Ext namespace won't be defined yet...
+        var Ext = Ext || {};
+        var KitchenSink = KitchenSink || {};
 
-        // This function is called by the Microloader after it has performed basic
-        // device detection. The results are provided in the "tags" object. You can
-        // use these tags here or even add custom tags. These can be used by platform
-        // filters in your manifest or by platformConfig expressions in your app.
-        //
         Ext.beforeLoad = function (tags) {
-            var s = location.search,  // the query string (ex "?foo=1&bar")
-                profile;
+            var query = location.search.substring(1),
+                values = {
+                    'false': false,
+                    'true': true,
+                    'null': null
+                },
+                paramRe = /([^&=]+)(=([^&]*))?/g,
+                plusRe = /\+/g,  // Regex for replacing addition symbol with a space
+                params = {},
+                match, key, val;
 
-            // For testing look for "?classic" or "?modern" in the URL to override
-            // device detection default.
-            //
-            if (s.match(/\bclassic\b/)) {
-                profile = 'classic';
-            }
-            else if (s.match(/\bmodern\b/)) {
-                profile = 'modern';
-            }
-            else {
-                profile = (tags.tablet || tags.desktop) ? 'classic' : 'modern';
-                //profile = tags.desktop ? 'classic' : 'modern';
-                //profile = tags.phone ? 'modern' : 'classic';
+            while (match = paramRe.exec(query)) {
+                key = decodeURIComponent(match[1].replace(plusRe, ' '));
+
+                if (match[2]) {
+                    val = decodeURIComponent(match[3].replace(plusRe, ' '));
+                    if (val in values) {
+                        val = values[val];
+                    } else if (!isNaN(+val)) {
+                        val = +val;
+                    }
+                } else {
+                    val = true;
+                }
+
+                params[key] = val;
             }
 
-            Ext.manifest = profile; // this name must match a build profile name
+            var profile = params.profile,
+                locale = params.locale;
 
-            // This function is called once the manifest is available but before
-            // any data is pulled from it.
-            //
-            //return function (manifest) {
-                // peek at / modify the manifest object
-            //};
+            if (!profile) {
+                if (!params.classic && !tags.desktop && tags.ios){
+                    profile = 'ios';
+                } else if (!params.classic && (params.modern || tags.phone)) {
+                    profile = 'material';
+                } else {
+                    profile = 'triton';
+                }
+            }
+
+            match = profile.match(/^(.+?)(?:-(en|he))$/);
+            if (match) { // "profile=triton-en"
+                profile = match[1];
+                locale = locale || match[2];
+            } else {
+                locale = locale || 'en';
+            }
+
+            // TODO: EXTJS-21544 - set platformTags based upon locale's text direction.
+            Ext.platformTags.rtl = locale === 'he';
+            KitchenSink.profileName = profile;
+            KitchenSink.locale = locale;
+
+            Ext.manifest = profile + "-" + locale;
+            tags.test = !!params.testMode;
+            Ext.microloaderTags = tags;
         };
     </script>
 
-    <!-- The line below must be kept intact for Sencha Cmd to build your application -->
-    <script id="microloader" data-app="6569ca19-7571-4938-8136-7514b89ef07b" type="text/javascript">var Ext=Ext||{};Ext.manifest=Ext.manifest||"modern.json";Ext=Ext||{};
+    <script id="microloader" data-app="7f0d3b50-5cb1-47e0-97b7-ffe69d12d49e" type="text/javascript">var Ext=Ext||{};Ext.manifest=Ext.manifest||"ios-en.json";Ext=Ext||{};
 Ext.Boot=Ext.Boot||function(f){function l(b){if(b.$isRequest)return b;b=b.url?b:{url:b};var e=b.url,e=e.charAt?[e]:e,a=b.charset||d.config.charset;x(this,b);delete this.url;this.urls=e;this.charset=a}function r(b){if(b.$isEntry)return b;var e=b.charset||d.config.charset,a=Ext.manifest,a=a&&a.loader,k=void 0!==b.cache?b.cache:a&&a.cache,c;d.config.disableCaching&&(void 0===k&&(k=!d.config.disableCaching),!1===k?c=+new Date:!0!==k&&(c=k),c&&(a=a&&a.cacheParam||d.config.disableCachingParam,c=a+"\x3d"+
 c));x(this,b);this.charset=e;this.buster=c;this.requests=[]}var n=document,q=[],t={disableCaching:/[?&](?:cache|disableCacheBuster)\b/i.test(location.search)||!/http[s]?\:/i.test(location.href)||/(^|[ ;])ext-cache=1/.test(n.cookie)?!1:!0,disableCachingParam:"_dc",loadDelay:!1,preserveScripts:!0,charset:"UTF-8"},u=/\.css(?:\?|$)/i,w=n.createElement("a"),y="undefined"!==typeof window,v={browser:y,node:!y&&"function"===typeof require,phantom:window&&(window._phantom||window.callPhantom)||/PhantomJS/.test(window.navigator.userAgent)},
 g=Ext.platformTags={},x=function(b,e,a){a&&x(b,a);if(b&&e&&"object"===typeof e)for(var d in e)b[d]=e[d];return b},c=function(){var b=!1,e=Array.prototype.shift.call(arguments),a,d,c,m;"boolean"===typeof arguments[arguments.length-1]&&(b=Array.prototype.pop.call(arguments));c=arguments.length;for(a=0;a<c;a++)if(m=arguments[a],"object"===typeof m)for(d in m)e[b?d.toLowerCase():d]=m[d];return e},a="function"==typeof Object.keys?function(b){return b?Object.keys(b):[]}:function(b){var e=[],a;for(a in b)b.hasOwnProperty(a)&&
@@ -100,7 +132,6 @@ else{c.updatedManifest=m;d=c.manifest.getAssets();b=m.getAssets();for(g in b)a=b
 c.updatedAssets.push(a)):a.uncache()}catch(h){l("Error parsing delta patch for "+a.assetConfig.path+" with hash "+d.assetConfig.hash+" . This asset will be uncached for future loading"),a.uncache()}if(0===c.remainingUpdatingAssets)c.onAllUpdatedAssetsReady()},onAllUpdatedAssetsReady:function(){var a;c.updatedAssetsReady=!0;if(c.updatedManifest){for(;0<c.removedAssets.length;)a=c.removedAssets.pop(),a.uncache();for(c.updatedManifest&&c.updatedManifest.cache();0<c.updatedAssets.length;)a=c.updatedAssets.pop(),
 a.cache()}c.notifyUpdateReady()},notifyUpdateReady:function(){"checking"!==c.appCacheState&&c.updatedAssetsReady&&("updated"===c.appCacheState||c.updatedManifest)&&(c.appUpdate={updated:!0,app:"updated"===c.appCacheState,manifest:c.updatedManifest&&c.updatedManifest.exportContent()},c.fireAppUpdate())},fireAppUpdate:function(){Ext.GlobalEvents&&Ext.defer(function(){Ext.GlobalEvents.fireEvent("appupdate",c.appUpdate)},1E3)},checksum:function(a,c){if(!a||!c)return!1;var b=!0,e=c.length,f=a.substring(0,
 1);"/"==f?a.substring(2,e+2)!==c&&(b=!1):"f"==f?a.substring(10,e+10)!==c&&(b=!1):"."==f&&a.substring(1,e+1)!==c&&(b=!1);return b},parseResult:function(a){var c={};!a.exception&&0!==a.status||f.env.phantom?200<=a.status&&300>a.status||304===a.status||f.env.phantom||0===a.status&&0<a.content.length?c.content=a.content:c.error=!0:c.error=!0;return c}};return c}();Ext.manifest=Ext.manifest||"bootstrap";Ext.Microloader.run();</script>
-
 </head>
 <body></body>
 </html>
