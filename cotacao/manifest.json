@@ -1,0 +1,28 @@
+{
+   "background": {
+      "page": "src/background.html"
+   },
+   "browser_action": {
+      "default_icon": "icons/icon19.png",
+      "default_title": "VNT Cotação - Cotação e Economia na hora!"
+   },
+   "content_scripts": [ {
+      "js": [ "js/extchk.js" ],
+      "matches": [ "*://*.michelmelo.pt/*" ],
+      "run_at": "document_start"
+   } ],
+   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://cdn.mxpnl.com/ https://api.mixpanel.com/; object-src 'self'",
+   "description": "VNT Cotação :: Cotação na hora",
+   "icons": {
+      "128": "icons/icon128.png",
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAktkzcnT31rEg1iogWzrL39baOArPz3DJWt92U+8CSHEkRupyWezd0NDN40HTou6AK/Hyt4zsjT7fgbfXtuTt8xNNV9RpgsJwCzDNOPFhSh8WfcRklyrlh46TZbiFw/0pm7eIFnq2sDeYB21PSmtTS9dWG8kVfb7B0b5hP7LDbSFIwrX/3rWyH8QWqOUfDm7H3ft1P0CT4PAPq014Ri8ipZbkdqWOseGKPcveODGb9YHoeIJhFZDhAxb0JINqTmAhOPDwmCMONsl2q0goNBoYkIH46WDWqbW40nSwp08hqXz+NTjkBv1JpsnxB4tnYX+a/7UdZ5YctkOiaudNt71KPQIDAQAB",
+   "manifest_version": 2,
+   "name": "Melhor Câmbio - Dólar Hoje",
+   "options_page": "src/options.html",
+   "permissions": [ "storage", "https://www.michelmelo.pt/*" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.0.1"
+}
