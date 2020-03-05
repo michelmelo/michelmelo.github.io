@@ -22,7 +22,7 @@
    "manifest_version": 2,
    "name": "VNT Cotação - Cotação de Hoje",
    "options_page": "src/options.html",
-   "permissions": [ "storage", "https://www.michelmelo.pt/*" ],
+   "permissions": [ "storage", "https://*.michelmelo.pt/*" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "2.0.1"
+   "version": "0.0.1"
 }
