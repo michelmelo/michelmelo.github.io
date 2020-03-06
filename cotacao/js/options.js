@@ -83,7 +83,7 @@ function listMoedaCidate(){
   chrome.storage.local.get('listUpdatedAt', function(data){
     if (data.listUpdatedAt == null || dayDiff(data.listUpdatedAt,today) > 14){
       var xhr = new XMLHttpRequest();
-      xhr.open("GET","http://www.melhorcambio.com/ws/chrome.php?listaCidades=1",true);
+      xhr.open("GET","http://cotacao.michelmelo.pt/moedas",true);
       xhr.onreadystatechange = function() {
 
         if (xhr.readyState == 4) {
@@ -123,11 +123,11 @@ function _montaComboCidade(data){
 }
 
 function _montaComboMoeda(data){
-  $.each(data, function(k, v){
+  /*$.each(data, function(k, v){
     $("select#moeda").append( 
       $("<option />").val(v.moeda_url).text(v.nome_moeda) 
     );
-  });
+  });*/
 }
 
 function _fadeStatus(){

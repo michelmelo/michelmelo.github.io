@@ -21,7 +21,7 @@ function updatePopup(callback){
         document.getElementById('btn-exibir-valores-nova-cotacao-comprar')
             .addEventListener('click',
             function() {
-                chrome.tabs.create({ url: 'https://www.melhorcambio.com/cotacao/compra/'+localStorage['m']+'/'+localStorage['c']+'?utm_source=plugin&utm_medium=organic&utm_campaign=chrome-extension' });
+                chrome.tabs.create({ url: 'http://cotacao.michelmelo/cotacao/'+localStorage['m']+'/'+localStorage['c']+'?utm_source=plugin&utm_medium=organic&utm_campaign=chrome-extension' });
             });
         });
 }

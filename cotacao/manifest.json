@@ -12,7 +12,7 @@
       "run_at": "document_start"
    } ],
    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://cdn.mxpnl.com/ https://api.mixpanel.com/; object-src 'self'",
-   "description": "VNT Cotação :: Cotação na hora",
+   "description": "Compare as cotações do Dólar/Euro em sua cidade",
    "icons": {
       "128": "icons/icon128.png",
       "16": "icons/icon16.png",

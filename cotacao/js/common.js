@@ -95,7 +95,7 @@ var setTabOptions = function(){
 var setTabCotacao = function(){
     chrome.storage.sync.get(function(data){
         if (data.moedaSelecionada != undefined){
-            chrome.tabs.create({url: 'https://www.melhorcambio.com/cotacao/compra/'+data.moedaSelecionada+'/'+data.cidadeSelecionada+'/snoslm5my7ml'});
+            chrome.tabs.create({url: 'http://cotacao.michelmelo.pt/cotacao/'+data.cidadeSelecionada+'/'+data.moedaSelecionada+'/'});
         } else {
             chrome.browserAction.setBadgeText({text: ''});
             setTab('options');
