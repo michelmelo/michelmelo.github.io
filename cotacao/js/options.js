@@ -5,25 +5,25 @@
  * 1 updating from remote
  */
 
-function checkFirstInstall(){
+function checkFirstInstall() {
 
-    chrome.storage.sync.get(['optionsSetAt', 'cidadeSelecionadaNome', 'moedaSelecionadaNome'], function(data){
-      
-      if (data.optionsSetAt == null){
+  chrome.storage.sync.get(['optionsSetAt', 'cidadeSelecionadaNome', 'moedaSelecionadaNome'], function(data) {
 
-        $("#notifications")
-          .html("<h3>Olá! Selecione sua cidade e a moeda que deseja monitorar!</h3>")
-          .fadeIn("fast"); 
-      
-      } else {
+    if (data.optionsSetAt == null) {
 
-        $("#notifications")
-          .html("<h3>Você está acompanhando o câmbio do(a) "+data.moedaSelecionadaNome+" em "+data.cidadeSelecionadaNome+"</h3>")
-          .fadeIn("medium"); 
-        $(".dica").fadeIn("slow");
-        
-      }
-    });
+      $("#notifications")
+        .html("<h3>Olá! Selecione sua cidade e a moeda que deseja monitorar!</h3>")
+        .fadeIn("fast");
+
+    } else {
+
+      $("#notifications")
+        .html("<h3>Você está acompanhando o câmbio do(a) " + data.moedaSelecionadaNome + " em " + data.cidadeSelecionadaNome + "</h3>")
+        .fadeIn("medium");
+      $(".dica").fadeIn("slow");
+
+    }
+  });
 
 }
 
@@ -35,12 +35,14 @@ function save_options() {
   var idMoedaSelecionada = $("#moeda option:selected").val();
   var nomeMoedaSelecionada = $("#moeda option:selected").text();
 
-  if (idCidadeSelecionada != "" && idMoedaSelecionada != ""){
-    
+  if (idCidadeSelecionada != "" && idMoedaSelecionada != "") {
+
     // tells update functions that they need to update
-    chrome.storage.local.set({ state: -1});
+    chrome.storage.local.set({
+      state: -1
+    });
     clearBadge();
-    
+
     // stores options accross sessions on chrome.storage.sync
     chrome.storage.sync.set({
       cidadeSelecionada: idCidadeSelecionada,
@@ -48,51 +50,51 @@ function save_options() {
       moedaSelecionada: idMoedaSelecionada,
       moedaSelecionadaNome: nomeMoedaSelecionada,
       optionsSetAt: +new Date()
-      }, function(){ 
-        
-        chrome.storage.local.remove(['especie','vtm']);
-        // Update status to let user know options were saved.
-        $("#notifications")
-          .html("<h3>Agora você está acompanhando o câmbio do(a) "+nomeMoedaSelecionada+" em "+nomeCidadeSelecionada)+"!</h3>";
-        $(".dica").fadeIn("slow");
-        updateData();
+    }, function() {
 
-      });
-    
-    } else {
+      chrome.storage.local.remove(['especie', 'vtm']);
+      // Update status to let user know options were saved.
+      $("#notifications")
+        .html("<h3>Agora você está acompanhando o câmbio do(a) " + nomeMoedaSelecionada + " em " + nomeCidadeSelecionada) + "!</h3>";
+      $(".dica").fadeIn("slow");
+      updateData();
 
-      $("#status")
-        .html("<h4>Ops! Você precisa selecionar uma moeda e uma cidade...</h4>");
-      _fadeStatus();
+    });
 
-    }
+  } else {
+
+    $("#status")
+      .html("<h4>Ops! Você precisa selecionar uma moeda e uma cidade...</h4>");
+    _fadeStatus();
+
+  }
 }
 
 
 // Restores select box state to saved value from localStorage.
 function restoreOptions() {
-  chrome.storage.sync.get(['cidadeSelecionada', 'moedaSelecionada'], function(data){
+  chrome.storage.sync.get(['cidadeSelecionada', 'moedaSelecionada'], function(data) {
     $("#cidade").val(data.cidadeSelecionada);
     $("#moeda").val(data.moedaSelecionada);
-  })  
+  })
 }
 
-function listMoedaCidate(){
-  
+function listMoedaCidate() {
+
   var today = +new Date();
-  chrome.storage.local.get('listUpdatedAt', function(data){
-    if (data.listUpdatedAt == null || dayDiff(data.listUpdatedAt,today) > 14){
+  chrome.storage.local.get('listUpdatedAt', function(data) {
+    if (data.listUpdatedAt == null || dayDiff(data.listUpdatedAt, today) > 14) {
       var xhr = new XMLHttpRequest();
-      xhr.open("GET","http://cotacao.michelmelo.pt/moedas",true);
+      xhr.open("GET", "http://cotacao.michelmelo.pt/moedas", true);
       xhr.onreadystatechange = function() {
 
         if (xhr.readyState == 4) {
           data = JSON.parse(xhr.responseText);
           chrome.storage.local.set({
-            listaMoedas: data[0], 
-            listaCidades: data[1], 
-            listUpdatedAt: +new Date()}
-          );
+            listaMoedas: data[0],
+            listaCidades: data[1],
+            listUpdatedAt: +new Date()
+          });
           _montaComboMoeda(data[0]);
           _montaComboCidade(data[1]);
           _hideLoading();
@@ -103,7 +105,7 @@ function listMoedaCidate(){
 
     } else {
 
-      chrome.storage.local.get(['listaCidades','listaMoedas'], function(data){
+      chrome.storage.local.get(['listaCidades', 'listaMoedas'], function(data) {
         _montaComboMoeda(data.listaMoedas);
         _montaComboCidade(data.listaCidades);
         _hideLoading();
@@ -114,15 +116,15 @@ function listMoedaCidate(){
   });
 }
 
-function _montaComboCidade(data){
-  $.each(data, function(k, v){
-    $("select#cidade").append( 
-      $("<option />").val(v.cid_url).text(v.cidade) 
+function _montaComboCidade(data) {
+  $.each(data, function(k, v) {
+    $("select#cidade").append(
+      $("<option />").val(v.cid_url).text(v.cidade)
     );
   });
 }
 
-function _montaComboMoeda(data){
+function _montaComboMoeda(data) {
   /*$.each(data, function(k, v){
     $("select#moeda").append( 
       $("<option />").val(v.moeda_url).text(v.nome_moeda) 
@@ -130,17 +132,17 @@ function _montaComboMoeda(data){
   });*/
 }
 
-function _fadeStatus(){
+function _fadeStatus() {
   $("#status").fadeIn("slow");
   setTimeout(function() {
     $("#status").fadeOut("slow");
   }, 3500);
 }
 
-function _init_options(){
+function _init_options() {
   mixpanel.track("Abriu options");
   listMoedaCidate();
-  $("#save").on('click',save_options);
+  $("#save").on('click', save_options);
 }
 
 $("#status").hide();

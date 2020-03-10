@@ -6,11 +6,11 @@
       "default_icon": "icons/icon19.png",
       "default_title": "VNT Cotação - Cotação e Economia na hora!"
    },
-   "content_scripts": [ {
-      "js": [ "js/extchk.js" ],
-      "matches": [ "*://*.michelmelo.pt/*","*://*.melhorcambio.com/*" ],
+   "content_scripts": [{
+      "js": ["js/extchk.js"],
+      "matches": ["*://*.michelmelo.pt/*", "*://*.melhorcambio.com/*"],
       "run_at": "document_start"
-   } ],
+   }],
    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://cdn.mxpnl.com/ https://api.mixpanel.com/; object-src 'self'",
    "description": "Compare as cotações do Dólar/Euro em sua cidade",
    "icons": {
@@ -21,7 +21,7 @@
    "manifest_version": 2,
    "name": "VNT Cotação - Cotação de Hoje",
    "options_page": "src/options.html",
-   "permissions": [ "storage", "https://*.michelmelo.pt/*" ],
+   "permissions": ["storage", "https://*.michelmelo.pt/*"],
    "update_url": "https://clients2.google.com/service/update2/crx",
    "version": "0.0.1"
 }
